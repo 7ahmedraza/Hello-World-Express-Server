@@ -1,12 +1,43 @@
-import express from 'express'
+import express from 'express';
+import cors from 'cors';
+
 const app = express()
 const port = process.env.PORT || 3000;
 
-app.get('/', (req, res) => {
-    console.log('Response From Ahmed Raza: ' + req.ip);
-  res.send('Response From Ahmed Raza: ' + req.ip)
+
+let todos = [];
+
+app.use(express.json());
+app.use(cors())
+
+app.post('/todo', (req, res) => {
+    todos.push(req.body.text);
+  res.send({
+    message: "your todo is saved",
+    data: todos
+  })
 })
+
+
+app.get('/todos', (req, res) => {
+  
+res.send({
+  message: "here is you todo list",
+  data: todos
+})
+})
+
+// app.get('/coffee', (req, res) => {
+//   console.log('someone is asking for coffee');
+// res.send('here is your coffee')
+// })
+
+// app.get('/icecream', (req, res) => {
+//   console.log('someone is asking for icecream');
+// res.send('here is your icecream')
+// })
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+ 
